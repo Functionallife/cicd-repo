@@ -59,14 +59,14 @@ pipeline {
                         echo "Deploying to UAT project..."
                         sh """
                           gcloud config set project ${UAT_PROJECT}
-                          gcloud compute scp -r ./index.html ${VM_NAME_UAT}:~/ --zone=${ZONE}
+                          gcloud compute scp ./index.html ${VM_NAME_UAT}:~/ --zone=${ZONE}
                           gcloud compute ssh ${VM_NAME_UAT} --zone=${ZONE} --command "sudo mv ~/index.html /var/www/html/index.html"
                         """
                     } else if (env.BRANCH_NAME == "main") {
                         echo "Deploying to PROD project..."
                         sh """
                           gcloud config set project ${PROD_PROJECT}
-                          gcloud compute scp -r ./index.html ${VM_NAME_PROD}:~/ --zone=${ZONE}
+                          gcloud compute scp ./index.html ${VM_NAME_PROD}:~/ --zone=${ZONE}
                           gcloud compute ssh ${VM_NAME_PROD} --zone=${ZONE} --command "sudo mv ~/index.html /var/www/html/index.html"
                         """
                     } else {
