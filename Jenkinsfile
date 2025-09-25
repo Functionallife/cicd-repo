@@ -8,7 +8,7 @@ pipeline {
         // Branch-to-Project mappings
         DEV_PROJECT  = "dev-project-473207"
         UAT_PROJECT  = "uat-project-473207"
-        PROD_PROJECT = "prod-project-473207"
+        PROD_PROJECT = "micro-answer-469207-r4"
 
         // VM details (adjust to your infra)
         VM_NAME_DEV  = "jenkins-vm"
