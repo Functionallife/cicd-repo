@@ -50,7 +50,7 @@ pipeline {
                         echo "Deploying to DEV project..."
                         sh """
                           gcloud config set project ${DEV_PROJECT}
-                          gcloud compute scp -r ./index.html ${VM_NAME}:~/ --zone=${ZONE}
+                          gcloud compute scp ./index.html ${VM_NAME}:~/ --zone=${ZONE}
                           gcloud compute ssh ${VM_NAME} --zone=${ZONE} --command "sudo mv ~/index.html /var/www/html/index.html"
                         """
                     } else if (env.BRANCH_NAME == "uat") {
