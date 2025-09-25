@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        // GitHub repo
+        // GitHub repo (for reference, not needed in checkout scm)
         GIT_URL = "https://github.com/Functionallife/cicd-repo.git"
 
         // Branch-to-Project mappings
@@ -18,10 +18,8 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Use Jenkins GitHub credentials
-                git branch: "${env.BRANCH_NAME}",
-                    url: "${GIT_URL}",
-                  //  credentialsId: 'github-creds'
+                // Multibranch pipeline auto-checks out the correct branch
+                checkout scm
                 echo "Checked out branch: ${env.BRANCH_NAME}"
             }
         }
