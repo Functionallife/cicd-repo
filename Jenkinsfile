@@ -11,8 +11,10 @@ pipeline {
         PROD_PROJECT = "prod-project-473207"
 
         // VM details (adjust to your infra)
-        VM_NAME = "jenkins-vm"
-        ZONE    = "asia-south1-b"
+        VM_NAME_DEV  = "jenkins-vm"
+        VM_NAME_UAT  = "uat-vm"
+        VM_NAME_PROD = "prod-vm"
+        ZONE         = "asia-south1-b"
     }
 
     stages {
@@ -50,22 +52,22 @@ pipeline {
                         echo "Deploying to DEV project..."
                         sh """
                           gcloud config set project ${DEV_PROJECT}
-                          gcloud compute scp ./index.html ${VM_NAME}:~/ --zone=${ZONE}
-                          gcloud compute ssh ${VM_NAME} --zone=${ZONE} --command "sudo mv ~/index.html /var/www/html/index.html"
+                          gcloud compute scp ./index.html ${VM_NAME_DEV}:~/ --zone=${ZONE}
+                          gcloud compute ssh ${VM_NAME_DEV} --zone=${ZONE} --command "sudo mv ~/index.html /var/www/html/index.html"
                         """
                     } else if (env.BRANCH_NAME == "uat") {
                         echo "Deploying to UAT project..."
                         sh """
                           gcloud config set project ${UAT_PROJECT}
-                          gcloud compute scp -r ./index.html ${VM_NAME}:~/ --zone=${ZONE}
-                          gcloud compute ssh ${VM_NAME} --zone=${ZONE} --command "sudo mv ~/index.html /var/www/html/index.html"
+                          gcloud compute scp -r ./index.html ${VM_NAME_UAT}:~/ --zone=${ZONE}
+                          gcloud compute ssh ${VM_NAME_UAT} --zone=${ZONE} --command "sudo mv ~/index.html /var/www/html/index.html"
                         """
                     } else if (env.BRANCH_NAME == "main") {
                         echo "Deploying to PROD project..."
                         sh """
                           gcloud config set project ${PROD_PROJECT}
-                          gcloud compute scp -r ./index.html ${VM_NAME}:~/ --zone=${ZONE}
-                          gcloud compute ssh ${VM_NAME} --zone=${ZONE} --command "sudo mv ~/index.html /var/www/html/index.html"
+                          gcloud compute scp -r ./index.html ${VM_NAME_PROD}:~/ --zone=${ZONE}
+                          gcloud compute ssh ${VM_NAME_PROD} --zone=${ZONE} --command "sudo mv ~/index.html /var/www/html/index.html"
                         """
                     } else {
                         echo "Branch ${env.BRANCH_NAME} not configured for deployment."
